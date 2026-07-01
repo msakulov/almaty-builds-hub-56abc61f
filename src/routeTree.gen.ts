@@ -9,38 +9,194 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as PricesRouteImport } from './routes/prices'
+import { Route as ContactsRouteImport } from './routes/contacts'
+import { Route as ConfiguratorRouteImport } from './routes/configurator'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as BuildsRouteImport } from './routes/builds'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BuildsPurposeRouteImport } from './routes/builds.$purpose'
 
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricesRoute = PricesRouteImport.update({
+  id: '/prices',
+  path: '/prices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactsRoute = ContactsRouteImport.update({
+  id: '/contacts',
+  path: '/contacts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguratorRoute = ConfiguratorRouteImport.update({
+  id: '/configurator',
+  path: '/configurator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuildsRoute = BuildsRouteImport.update({
+  id: '/builds',
+  path: '/builds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuildsPurposeRoute = BuildsPurposeRouteImport.update({
+  id: '/$purpose',
+  path: '/$purpose',
+  getParentRoute: () => BuildsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/builds': typeof BuildsRouteWithChildren
+  '/careers': typeof CareersRoute
+  '/configurator': typeof ConfiguratorRoute
+  '/contacts': typeof ContactsRoute
+  '/prices': typeof PricesRoute
+  '/services': typeof ServicesRoute
+  '/builds/$purpose': typeof BuildsPurposeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/builds': typeof BuildsRouteWithChildren
+  '/careers': typeof CareersRoute
+  '/configurator': typeof ConfiguratorRoute
+  '/contacts': typeof ContactsRoute
+  '/prices': typeof PricesRoute
+  '/services': typeof ServicesRoute
+  '/builds/$purpose': typeof BuildsPurposeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/builds': typeof BuildsRouteWithChildren
+  '/careers': typeof CareersRoute
+  '/configurator': typeof ConfiguratorRoute
+  '/contacts': typeof ContactsRoute
+  '/prices': typeof PricesRoute
+  '/services': typeof ServicesRoute
+  '/builds/$purpose': typeof BuildsPurposeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/builds'
+    | '/careers'
+    | '/configurator'
+    | '/contacts'
+    | '/prices'
+    | '/services'
+    | '/builds/$purpose'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/builds'
+    | '/careers'
+    | '/configurator'
+    | '/contacts'
+    | '/prices'
+    | '/services'
+    | '/builds/$purpose'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/builds'
+    | '/careers'
+    | '/configurator'
+    | '/contacts'
+    | '/prices'
+    | '/services'
+    | '/builds/$purpose'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  BuildsRoute: typeof BuildsRouteWithChildren
+  CareersRoute: typeof CareersRoute
+  ConfiguratorRoute: typeof ConfiguratorRoute
+  ContactsRoute: typeof ContactsRoute
+  PricesRoute: typeof PricesRoute
+  ServicesRoute: typeof ServicesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prices': {
+      id: '/prices'
+      path: '/prices'
+      fullPath: '/prices'
+      preLoaderRoute: typeof PricesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacts': {
+      id: '/contacts'
+      path: '/contacts'
+      fullPath: '/contacts'
+      preLoaderRoute: typeof ContactsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configurator': {
+      id: '/configurator'
+      path: '/configurator'
+      fullPath: '/configurator'
+      preLoaderRoute: typeof ConfiguratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/builds': {
+      id: '/builds'
+      path: '/builds'
+      fullPath: '/builds'
+      preLoaderRoute: typeof BuildsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +204,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/builds/$purpose': {
+      id: '/builds/$purpose'
+      path: '/$purpose'
+      fullPath: '/builds/$purpose'
+      preLoaderRoute: typeof BuildsPurposeRouteImport
+      parentRoute: typeof BuildsRoute
+    }
   }
 }
 
+interface BuildsRouteChildren {
+  BuildsPurposeRoute: typeof BuildsPurposeRoute
+}
+
+const BuildsRouteChildren: BuildsRouteChildren = {
+  BuildsPurposeRoute: BuildsPurposeRoute,
+}
+
+const BuildsRouteWithChildren =
+  BuildsRoute._addFileChildren(BuildsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  BuildsRoute: BuildsRouteWithChildren,
+  CareersRoute: CareersRoute,
+  ConfiguratorRoute: ConfiguratorRoute,
+  ContactsRoute: ContactsRoute,
+  PricesRoute: PricesRoute,
+  ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
