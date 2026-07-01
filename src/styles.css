@@ -1,0 +1,112 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand-bg: var(--brand-bg);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-muted: var(--brand-muted);
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0.625rem;
+  --brand-bg: oklch(0.13 0.02 260);
+  --brand-surface: oklch(0.18 0.025 262);
+  --brand-primary: oklch(0.82 0.14 210);
+  --brand-accent: oklch(0.55 0.24 295);
+  --brand-muted: oklch(0.72 0.02 250);
+  --background: oklch(0.11 0.02 260);
+  --foreground: oklch(0.98 0.005 240);
+  --card: oklch(0.18 0.025 262);
+  --card-foreground: oklch(0.98 0.005 240);
+  --popover: oklch(0.18 0.025 262);
+  --popover-foreground: oklch(0.98 0.005 240);
+  --primary: oklch(0.82 0.14 210);
+  --primary-foreground: oklch(0.12 0.02 260);
+  --secondary: oklch(0.22 0.03 262);
+  --secondary-foreground: oklch(0.98 0.005 240);
+  --muted: oklch(0.22 0.03 262);
+  --muted-foreground: oklch(0.72 0.02 250);
+  --accent: oklch(0.55 0.24 295);
+  --accent-foreground: oklch(0.98 0.005 240);
+  --destructive: oklch(0.6 0.24 27);
+  --destructive-foreground: oklch(0.98 0.005 240);
+  --border: oklch(0.28 0.02 262);
+  --input: oklch(0.22 0.03 262);
+  --ring: oklch(0.82 0.14 210);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background-color: var(--brand-bg);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--brand-primary);
+    color: var(--brand-bg);
+  }
+}
+
+@utility text-gradient-brand {
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-glow-primary {
+  box-shadow:
+    0 0 40px -10px color-mix(in oklab, var(--brand-primary) 60%, transparent),
+    0 0 80px -20px color-mix(in oklab, var(--brand-accent) 40%, transparent);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
