@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { useLang } from "@/lib/i18n";
@@ -8,11 +8,26 @@ export function ContactForm({ source, compact = false }: { source?: string; comp
   const { t } = useLang();
   const send = useServerFn(sendTelegramLead);
   const [state, setState] = useState<"idle" | "sending">("idle");
+  const [seed, setSeed] = useState(0);
+  const captcha = useMemo(() => {
+    // regenerate when seed changes
+    void seed;
+    const a = Math.floor(Math.random() * 8) + 2;
+    const b = Math.floor(Math.random() * 8) + 2;
+    return { a, b, answer: a + b };
+  }, [seed]);
+  const regenCaptcha = useCallback(() => setSeed((s) => s + 1), []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const fd = new FormData(form);
+    const captchaValue = String(fd.get("captcha") ?? "").trim();
+    if (Number(captchaValue) !== captcha.answer) {
+      toast.error(t("form.captchaError"));
+      regenCaptcha();
+      return;
+    }
     const payload = {
       name: String(fd.get("name") ?? "").trim(),
       contact: String(fd.get("contact") ?? "").trim(),
@@ -29,6 +44,7 @@ export function ContactForm({ source, compact = false }: { source?: string; comp
       if (res.ok) {
         toast.success(t("form.success"));
         form.reset();
+        regenCaptcha();
       } else {
         toast.error(t("form.error"));
       }
@@ -73,6 +89,20 @@ export function ContactForm({ source, compact = false }: { source?: string; comp
           maxLength={2000}
           placeholder={t("form.messagePh")}
           className="w-full bg-brand-bg border border-white/10 px-4 py-3 focus:border-brand-primary outline-none text-white resize-none transition-colors"
+        />
+      </div>
+      <div>
+        <label className="text-[10px] uppercase tracking-widest text-brand-muted mb-2 block">
+          {t("form.captcha").replace("{a}", String(captcha.a)).replace("{b}", String(captcha.b))}
+        </label>
+        <input
+          name="captcha"
+          required
+          inputMode="numeric"
+          autoComplete="off"
+          maxLength={4}
+          placeholder={t("form.captchaPh")}
+          className="w-full bg-brand-bg border border-white/10 px-4 py-3 focus:border-brand-primary outline-none text-white transition-colors"
         />
       </div>
       <button
