@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 
-export type Lang = "ru" | "en";
+export type Lang = "ru" | "en" | "kz";
 
 type Dict = Record<string, string>;
 
@@ -46,6 +46,9 @@ const RU: Dict = {
   "form.success": "Заявка отправлена. Мы напишем вам в Telegram.",
   "form.error": "Не удалось отправить. Попробуйте позже.",
   "form.sending": "Отправка...",
+  "form.captcha": "Проверка: сколько будет {a} + {b}?",
+  "form.captchaPh": "Ответ",
+  "form.captchaError": "Неверный ответ на проверку",
   "footer.addr": "г. Алматы, пр. Абая 150",
   "footer.rights": "© 2026 ALMATECH · Сборка ПК в Алматы",
   "about.title": "О компании",
@@ -144,6 +147,9 @@ const EN: Dict = {
   "form.success": "Request sent. We'll message you on Telegram shortly.",
   "form.error": "Could not send. Please try again later.",
   "form.sending": "Sending...",
+  "form.captcha": "Verification: what is {a} + {b}?",
+  "form.captchaPh": "Answer",
+  "form.captchaError": "Incorrect captcha answer",
   "footer.addr": "Abay Ave 150, Almaty",
   "footer.rights": "© 2026 ALMATECH · Custom PCs in Almaty",
   "about.title": "About us",
