@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 
-export type Lang = "ru" | "en";
+export type Lang = "ru" | "en" | "kz";
 
 type Dict = Record<string, string>;
 
@@ -46,6 +46,9 @@ const RU: Dict = {
   "form.success": "Заявка отправлена. Мы напишем вам в Telegram.",
   "form.error": "Не удалось отправить. Попробуйте позже.",
   "form.sending": "Отправка...",
+  "form.captcha": "Проверка: сколько будет {a} + {b}?",
+  "form.captchaPh": "Ответ",
+  "form.captchaError": "Неверный ответ на проверку",
   "footer.addr": "г. Алматы, пр. Абая 150",
   "footer.rights": "© 2026 ALMATECH · Сборка ПК в Алматы",
   "about.title": "О компании",
@@ -144,6 +147,9 @@ const EN: Dict = {
   "form.success": "Request sent. We'll message you on Telegram shortly.",
   "form.error": "Could not send. Please try again later.",
   "form.sending": "Sending...",
+  "form.captcha": "Verification: what is {a} + {b}?",
+  "form.captchaPh": "Answer",
+  "form.captchaError": "Incorrect captcha answer",
   "footer.addr": "Abay Ave 150, Almaty",
   "footer.rights": "© 2026 ALMATECH · Custom PCs in Almaty",
   "about.title": "About us",
@@ -200,7 +206,108 @@ const EN: Dict = {
   "contacts.hours.v": "Mon–Sat · 10:00–20:00",
 };
 
-const DICTS: Record<Lang, Dict> = { ru: RU, en: EN };
+const KZ: Dict = {
+  "nav.home": "Басты",
+  "nav.about": "Біз туралы",
+  "nav.builds": "Жинақтар",
+  "nav.configurator": "Құрастырушы",
+  "nav.prices": "Бағалар",
+  "nav.services": "Қызметтер",
+  "nav.careers": "Вакансиялар",
+  "nav.contacts": "Байланыс",
+  "cta.consult": "Кеңес алу",
+  "cta.start": "ДК жинау",
+  "cta.presets": "Дайын жинақтар",
+  "cta.send": "Telegram-ға жіберу",
+  "hero.badge": "Алматы · ДК жинау",
+  "hero.title1": "ЖАҢА БУЫН",
+  "hero.title2": "АЛМАТЫ ЖИНАҚТАРЫ",
+  "hero.desc": "Компьютерлерді жеке тапсырыс бойынша жинау және комплектілерді сату. Ойындар, жұмыс, шығармашылық және ресурсты тапсырмалар — бюджетіңіз бен мақсатыңызға сай.",
+  "hero.imgLabel": "Флагман жинақ",
+  "cats.title": "МАҚСАТЫ БОЙЫНША ЖИНАҚТАР",
+  "cats.sub": "Бастапқы нүктені таңдаңыз — конфигурацияны тапсырмаңызға бейімдейміз",
+  "cats.count": "4 санат",
+  "cats.explore": "Толығырақ →",
+  "cats.office.title": "Кеңсе",
+  "cats.office.desc": "Құжаттар, 1С, конференциялар мен күнделікті жұмыс үшін сенімді әрі тыныш ДК.",
+  "cats.study.title": "Оқу",
+  "cats.study.desc": "Бағдарламалау, зерттеу және көп тапсырмалы жұмыс үшін оңтайлы.",
+  "cats.gaming.title": "Жұмыс + Ойын",
+  "cats.gaming.desc": "1440p және 4K-да жоғары FPS, стриминг және өнімді жұмыс.",
+  "cats.workstation.title": "Жұмыс станциясы",
+  "cats.workstation.desc": "3D-рендер, видеомонтаж, AI және CAD — ымыраға келмей.",
+  "cats.from": "бастап",
+  "contact.title": "КЕҢЕС АЛУ",
+  "contact.desc": "Алматыдағы инженерлеріміз Telegram-да 15 минут ішінде жауап береді.",
+  "form.name": "Атыңыз",
+  "form.contact": "Байланыс",
+  "form.contactPh": "@username немесе телефон",
+  "form.message": "Тапсырма / бюджет",
+  "form.messagePh": "Тапсырмаңызды, бюджетті немесе қалаған комплектілерді сипаттаңыз...",
+  "form.submit": "Telegram-ға жіберу",
+  "form.success": "Өтінім жіберілді. Сізге Telegram-да жазамыз.",
+  "form.error": "Жіберу мүмкін болмады. Кейінірек көріңіз.",
+  "form.sending": "Жіберілуде...",
+  "form.captcha": "Тексеру: {a} + {b} қанша?",
+  "form.captchaPh": "Жауап",
+  "form.captchaError": "Тексеру жауабы дұрыс емес",
+  "footer.addr": "Алматы қ., Абай д-лы 150",
+  "footer.rights": "© 2026 ALMATECH · Алматыда ДК жинау",
+  "about.title": "Компания туралы",
+  "about.lead": "ALMATECH — 2016 жылдан бері Алматыдағы инженерлер мен ДК жинаушылар командасы. Стандартты қораптарды емес, клиенттің нақты тапсырмасы бойынша компьютер жинаймыз.",
+  "about.stats.years": "жыл нарықта",
+  "about.stats.builds": "жиналған ДК",
+  "about.stats.warranty": "ай кепілдік",
+  "about.stats.city": "Алматыда сервис",
+  "about.values.title": "Ұстанымдарымыз",
+  "about.v1.t": "Ашықтық",
+  "about.v1.d": "Әрбір компонент — негіздемесімен және ашық бағамен.",
+  "about.v2.t": "Тестілеу",
+  "about.v2.d": "Клиентке беруден бұрын 24 сағат стресс-тест.",
+  "about.v3.t": "Кепілдік",
+  "about.v3.d": "Жинауға 24 ай кепілдік және Алматыдағы жергілікті сервис.",
+  "builds.title": "ЖИНАҚТАР",
+  "builds.sub": "Тапсырмаға оңтайландырылған дайын пресеттер. Әр жинақты құрастырушыда баптауға болады.",
+  "builds.specs": "Негізгі компоненттер",
+  "builds.order": "Жинаққа тапсырыс беру",
+  "cfg.title": "ЖИНАҚ ҚҰРАСТЫРУШЫ",
+  "cfg.sub": "Комплектілерді таңдаңыз — баға нақты уақытта қайта есептеледі.",
+  "cfg.total": "ЖИЫНЫ",
+  "cfg.included": "Жинау және тестілеу қосылған",
+  "cfg.order": "Telegram арқылы тапсырыс",
+  "cfg.step.cpu": "Процессор",
+  "cfg.step.gpu": "Видеокарта",
+  "cfg.step.ram": "Жедел жады",
+  "cfg.step.storage": "Жинақтауыш",
+  "cfg.step.case": "Корпус + Қуат блогы",
+  "prices.title": "КОМПОНЕНТТЕР БАҒАСЫ",
+  "prices.sub": "Алматыдағы негізгі ДК комплектілерінің өзекті бағасы.",
+  "prices.col.cat": "Санат",
+  "prices.col.name": "Үлгі",
+  "prices.col.stock": "Қоймада",
+  "prices.col.price": "Бағасы, ₸",
+  "prices.instock": "Бар",
+  "prices.low": "Аз",
+  "services.title": "ҚЫЗМЕТТЕР",
+  "services.sub": "Толық цикл: комплектілерді таңдаудан бастап сервистік қызмет көрсетуге дейін.",
+  "careers.title": "ВАКАНСИЯЛАР",
+  "careers.sub": "Біз өсіп келеміз. ALMATECH командасына қосылыңыз.",
+  "careers.apply": "Өтінім",
+  "careers.type.full": "Толық күн",
+  "careers.type.part": "Ішінара",
+  "contacts.title": "БАЙЛАНЫС",
+  "contacts.sub": "Алматыдағы шеберхана мен шоурум. Кездесуге қуаныштымыз.",
+  "contacts.addr.t": "Мекенжай",
+  "contacts.addr.v": "Алматы қ., Абай д-лы 150, 2-қабат",
+  "contacts.phone.t": "Телефон",
+  "contacts.phone.v": "+7 (727) 350-00-00",
+  "contacts.email.t": "Email",
+  "contacts.email.v": "hello@almatech.kz",
+  "contacts.hours.t": "Жұмыс уақыты",
+  "contacts.hours.v": "Дс–Сб · 10:00–20:00",
+};
+
+const DICTS: Record<Lang, Dict> = { ru: RU, en: EN, kz: KZ };
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (key: string) => string };
 const LangCtx = createContext<Ctx | null>(null);
@@ -209,7 +316,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("ru");
   useEffect(() => {
     const stored = typeof window !== "undefined" ? (window.localStorage.getItem("lang") as Lang | null) : null;
-    if (stored === "ru" || stored === "en") setLangState(stored);
+    if (stored === "ru" || stored === "en" || stored === "kz") setLangState(stored);
   }, []);
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
