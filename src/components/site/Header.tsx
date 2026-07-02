@@ -24,7 +24,7 @@ export function Header() {
             ALMA<span className="text-white">TECH</span>
           </span>
         </Link>
-        <div className="hidden lg:flex gap-5 text-xs font-medium uppercase tracking-widest text-brand-muted overflow-x-auto">
+        <div className="hidden xl:flex gap-4 text-xs font-medium uppercase tracking-wider text-brand-muted">
           {links.map((l) => (
             <Link
               key={l.to}

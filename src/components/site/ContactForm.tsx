@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { useLang } from "@/lib/i18n";
@@ -8,22 +8,20 @@ export function ContactForm({ source, compact = false }: { source?: string; comp
   const { t } = useLang();
   const send = useServerFn(sendTelegramLead);
   const [state, setState] = useState<"idle" | "sending">("idle");
-  const [seed, setSeed] = useState(0);
-  const captcha = useMemo(() => {
-    // regenerate when seed changes
-    void seed;
+  const [captcha, setCaptcha] = useState<{ a: number; b: number; answer: number } | null>(null);
+  const regenCaptcha = useCallback(() => {
     const a = Math.floor(Math.random() * 8) + 2;
     const b = Math.floor(Math.random() * 8) + 2;
-    return { a, b, answer: a + b };
-  }, [seed]);
-  const regenCaptcha = useCallback(() => setSeed((s) => s + 1), []);
+    setCaptcha({ a, b, answer: a + b });
+  }, []);
+  useEffect(() => { regenCaptcha(); }, [regenCaptcha]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const fd = new FormData(form);
     const captchaValue = String(fd.get("captcha") ?? "").trim();
-    if (Number(captchaValue) !== captcha.answer) {
+    if (!captcha || Number(captchaValue) !== captcha.answer) {
       toast.error(t("form.captchaError"));
       regenCaptcha();
       return;
@@ -93,7 +91,9 @@ export function ContactForm({ source, compact = false }: { source?: string; comp
       </div>
       <div>
         <label className="text-[10px] uppercase tracking-widest text-brand-muted mb-2 block">
-          {t("form.captcha").replace("{a}", String(captcha.a)).replace("{b}", String(captcha.b))}
+          {captcha
+            ? t("form.captcha").replace("{a}", String(captcha.a)).replace("{b}", String(captcha.b))
+            : t("form.captcha").replace("{a}", "…").replace("{b}", "…")}
         </label>
         <input
           name="captcha"
