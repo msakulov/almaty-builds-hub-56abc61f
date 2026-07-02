@@ -19,7 +19,7 @@ export function formatTenge(v: number, lang: Lang) {
   return new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(v) + " ₸";
 }
 
-export const BUILD_SPECS: Record<Purpose, { ru: string[]; en: string[] }> = {
+export const BUILD_SPECS: Record<Purpose, Record<Lang, string[]>> = {
   office: {
     ru: [
       "AMD Ryzen 5 5600G · Vega 7",
@@ -34,6 +34,13 @@ export const BUILD_SPECS: Record<Purpose, { ru: string[]; en: string[] }> = {
       "512 GB NVMe SSD",
       "Silent case, 550 W 80+ Bronze PSU",
       "Windows 11 Pro · office suite",
+    ],
+    kz: [
+      "AMD Ryzen 5 5600G · Vega 7",
+      "16 ГБ DDR4 3200",
+      "512 ГБ NVMe SSD",
+      "Тыныш корпус, 550 Вт 80+ Bronze қуат блогы",
+      "Windows 11 Pro · кеңсе бумасы",
     ],
   },
   study: {
@@ -51,6 +58,13 @@ export const BUILD_SPECS: Record<Purpose, { ru: string[]; en: string[] }> = {
       "1 TB NVMe SSD",
       "650 W 80+ Bronze PSU",
     ],
+    kz: [
+      "Intel Core i5-13400F",
+      "RTX 3050 6 ГБ",
+      "32 ГБ DDR4 3200",
+      "1 ТБ NVMe SSD",
+      "650 Вт 80+ Bronze қуат блогы",
+    ],
   },
   gaming: {
     ru: [
@@ -67,6 +81,13 @@ export const BUILD_SPECS: Record<Purpose, { ru: string[]; en: string[] }> = {
       "2 TB NVMe Gen4 SSD",
       "240 mm AIO liquid cooler",
     ],
+    kz: [
+      "AMD Ryzen 7 7700X",
+      "RTX 4070 Super 12 ГБ",
+      "32 ГБ DDR5 6000",
+      "2 ТБ NVMe Gen4 SSD",
+      "240 мм сұйықтықпен салқындату",
+    ],
   },
   workstation: {
     ru: [
@@ -82,6 +103,13 @@ export const BUILD_SPECS: Record<Purpose, { ru: string[]; en: string[] }> = {
       "64–128 GB DDR5 ECC",
       "4 TB NVMe Gen5 SSD",
       "1000 W 80+ Platinum PSU",
+    ],
+    kz: [
+      "Intel Core i9-14900K / Threadripper",
+      "RTX 4090 24 ГБ",
+      "64–128 ГБ DDR5 ECC",
+      "4 ТБ NVMe Gen5 SSD",
+      "1000 Вт 80+ Platinum қуат блогы",
     ],
   },
 };
