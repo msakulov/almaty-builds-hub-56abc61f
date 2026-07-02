@@ -39,18 +39,15 @@ export function Header() {
         </div>
         <div className="flex items-center gap-4 shrink-0">
           <div className="flex bg-brand-surface rounded-full p-1 border border-white/5">
-            <button
-              onClick={() => setLang("ru")}
-              className={`px-3 py-1 text-xs font-bold rounded-full transition-colors ${lang === "ru" ? "bg-brand-primary text-black" : "text-brand-muted hover:text-white"}`}
-            >
-              RU
-            </button>
-            <button
-              onClick={() => setLang("en")}
-              className={`px-3 py-1 text-xs font-bold rounded-full transition-colors ${lang === "en" ? "bg-brand-primary text-black" : "text-brand-muted hover:text-white"}`}
-            >
-              EN
-            </button>
+            {(["ru", "kz", "en"] as const).map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`px-3 py-1 text-xs font-bold rounded-full transition-colors ${lang === l ? "bg-brand-primary text-black" : "text-brand-muted hover:text-white"}`}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
           </div>
           <Link
             to="/contacts"
